@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.17">
+  <POU Name="FB_ChillerLoop_Test" Id="{8ac89975-cd8d-49dd-8cf3-ec426456b1c0}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_ChillerLoop_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TemperatureErrorTriggers();
+TemperatureErrorReturnsToNormal();
+NoError();
+//OperatorOverrideResets();]]></ST>
+    </Implementation>
+    <Method Name="NoError" Id="{dd242c58-8b42-478d-9d9b-26e741e96a35}">
+      <Declaration><![CDATA[METHOD NoError
+VAR
+	fbChillerLoop : FB_ChillerLoop;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('NoChillerLoopError');
+
+fbChillerLoop(bLoopTempSW := TRUE);
+AssertFalse(fbChillerLoop.bError, 'Error fasely detected');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OperatorOverrideResets" Id="{dc3a5974-2d91-46f0-b32a-8ef644cca320}">
+      <Declaration><![CDATA[METHOD OperatorOverrideResets
+VAR
+	fbChillerLoop : FB_ChillerLoop;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[(*
+TEST('OperatorOverrideResets');
+
+fbChillerLoop(bLoopTempSW := FALSE);
+fbChillerLoop.bOperatorOverride := TRUE;
+AssertTrue(fbChillerLoop.bOperatorOverride, 'Operator override failed to set');
+
+// Operator override should reset uner normal temperature conditions.
+fbChillerLoop(bLoopTempSW := TRUE);
+AssertFalse(fbChillerLoop.bOperatorOverride, 'Operator override failed to reset');
+
+TEST_FINISHED();
+*)]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TemperatureErrorReturnsToNormal" Id="{fdc4b03e-9d62-4e4f-aedd-88c595d75147}">
+      <Declaration><![CDATA[METHOD TemperatureErrorReturnsToNormal
+VAR
+	fbChillerLoop : FB_ChillerLoop := F_ChillerLoop_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TemperatureErrorReturnsToNormal');
+
+// Chiller loop should return to normal state when inputs go back to normal
+fbChillerLoop(bLoopTempSW := TRUE);
+AssertFalse(fbChillerLoop.bError, 'Temperature error did not go back to normal');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TemperatureErrorTriggers" Id="{f317dc99-d319-4c6c-92d4-c5a67e245736}">
+      <Declaration><![CDATA[METHOD TemperatureErrorTriggers
+VAR
+	fbChillerLoop : FB_ChillerLoop := F_ChillerLoop_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TemperatureErrorTriggers');
+
+AssertTrue(fbChillerLoop.bError, 'Temperature error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ChillerLoop_Test">
+      <LineId Id="26" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ChillerLoop_Test.NoError">
+      <LineId Id="6" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ChillerLoop_Test.OperatorOverrideResets">
+      <LineId Id="24" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="14" Count="3" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ChillerLoop_Test.TemperatureErrorReturnsToNormal">
+      <LineId Id="15" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ChillerLoop_Test.TemperatureErrorTriggers">
+      <LineId Id="30" Count="0" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

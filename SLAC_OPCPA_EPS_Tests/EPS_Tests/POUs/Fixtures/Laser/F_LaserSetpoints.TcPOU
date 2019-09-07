@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_LaserSetpoints" Id="{a52d574d-6658-40ce-ae47-23dd58ff0f5e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_LaserSetpoints : ST_LaserSetpoints
+VAR_INPUT
+END_VAR
+VAR
+	stSetpoints : ST_LaserSetpoints := (
+		nMinVoltage := 2,
+		nMinNominalVoltage := 4
+	);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[F_LaserSetpoints := stSetpoints;]]></ST>
+    </Implementation>
+    <LineIds Name="F_LaserSetpoints">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

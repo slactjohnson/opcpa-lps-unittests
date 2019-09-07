@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="MAIN" Id="{9c0cdecb-d846-48a9-a72a-3bd928635aa6}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	// Devices
+	fbLeakMonitorTest : FB_LeakMonitor_Test;
+	fbLoopTemperatureTest : FB_ChillerLoop_Test;
+	fbLaserTest : FB_Laser_Test;
+	fbTemperatureMonitorTest : FB_TemperatureMonitor_Test;
+	fbDumpChillerTest : FB_DumpChiller_Test;
+	fbBaseplateChillerTest : FB_BaseplateChiller_Test;
+	fbAmphosMRCTest : FB_AmphosMRC_Test;
+	
+	// Interlocks
+	fbAmphosAttenuatorEnableTest : FB_AmphosAttenuatorEnable_Test;
+	fbAmphosShutterEnableTest : FB_AmphosShutterEnable_Test;
+	fbCarbideShutterEnableTest : FB_CarbideShutterEnable_Test;
+	fbDumpChillerEnableTest : FB_DumpChillerEnable_Test;
+	fbBaseplateChillerEnableTest : FB_BaseplateChillerEnable_Test;
+	fbAmphosEnableTest : FB_AmphosEnable_Test;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcUnit.RUN();]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

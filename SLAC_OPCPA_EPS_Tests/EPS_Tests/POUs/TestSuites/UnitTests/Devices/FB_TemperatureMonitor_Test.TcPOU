@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="FB_TemperatureMonitor_Test" Id="{950f61b6-63e6-46f5-b642-01b889ed99d3}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_TemperatureMonitor_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ErrorTriggers();
+ErrorGoesBackToNormal();
+NoError();
+TempMonRawScales1();
+TempMonRawScales2();]]></ST>
+    </Implementation>
+    <Method Name="ErrorGoesBackToNormal" Id="{5861698e-4da0-4386-8485-555a1283bf30}">
+      <Declaration><![CDATA[METHOD ErrorGoesBackToNormal
+VAR
+	fbTempMon : FB_TemperatureMonitor;
+	stSetpoints : ST_TemperatureMonitorSetpoints;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorGoesBackToNormal');
+
+// Error should go back to normal when temperature is in a safe range
+fbTempMon := F_TemperatureMonitor_Error(stSetpoints => stSetpoints);
+fbTempMon(nTempMonRaw := 0, stSetpoints := stSetpoints);
+AssertFalse(fbTempMon.bError, 'Error did not go back to normal');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ErrorTriggers" Id="{f3ba7f0c-1307-4c06-bc0d-f709417e63eb}">
+      <Declaration><![CDATA[METHOD ErrorTriggers
+VAR
+	fbTempMon : FB_TemperatureMonitor := F_TemperatureMonitor_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorTriggers');
+
+AssertTrue(fbTempMon.bError, 'Error did not trigger');
+	
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NoError" Id="{acc88db4-8a5f-4628-8563-e29eca6ebc60}">
+      <Declaration><![CDATA[METHOD NoError
+VAR
+	fbTempMon : FB_TemperatureMonitor;
+	stSetpoints : ST_TemperatureMonitorSetpoints := F_TemperatureMonitorSetpoints();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('NoError');
+
+fbTempMon(
+	nTempMonRaw := 1, 
+	bAmphosOn := TRUE, 
+	stSetpoints := stSetpoints
+);
+AssertFalse(fbTempMon.bError, 'Error fasely detected');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TempMonRawScales1" Id="{7470cb65-5ac3-4f27-9c8b-2f84973b9e63}">
+      <Declaration><![CDATA[METHOD TempMonRawScales1
+VAR
+	fbTempMon : FB_TemperatureMonitor;
+	stSetpoints : ST_TemperatureMonitorSetpoints := F_TemperatureMonitorSetpoints();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TempMonRawScales1');
+
+fbTempMon(
+	nTempMonRaw := 0,
+	stSetpoints := stSetpoints
+);
+AssertEquals_LREAL(0, fbTempMon.fTemperature, 0.01, 'Analog temperature scaling failed');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TempMonRawScales2" Id="{672cf80c-d82c-40cc-9c6f-f374f06ae021}">
+      <Declaration><![CDATA[METHOD TempMonRawScales2
+VAR
+	fbTempMon : FB_TemperatureMonitor;
+	stSetpoints : ST_TemperatureMonitorSetpoints := F_TemperatureMonitorSetpoints();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TempMonRawScales2');
+
+fbTempMon(
+	nTempMonRaw := 16#7736,
+	stSetpoints := stSetpoints
+);
+AssertEquals_LREAL(1000, fbTempMon.fTemperature, 1, 'Analog temperature scaling failed');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TemperatureMonitor_Test">
+      <LineId Id="17" Count="3" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TemperatureMonitor_Test.ErrorGoesBackToNormal">
+      <LineId Id="6" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TemperatureMonitor_Test.ErrorTriggers">
+      <LineId Id="12" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TemperatureMonitor_Test.NoError">
+      <LineId Id="9" Count="6" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TemperatureMonitor_Test.TempMonRawScales1">
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="3" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TemperatureMonitor_Test.TempMonRawScales2">
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="3" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

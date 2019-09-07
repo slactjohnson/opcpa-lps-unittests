@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_AmphosMRC_Error" Id="{9bd8c8e0-99f9-4360-8a25-2ba957d3b608}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_AmphosMRC_Error : FB_AmphosMRC
+VAR_INPUT
+END_VAR
+VAR
+	fbAmphosMRC : FB_AmphosMRC;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbAmphosMRC(
+	bAmphosOn := TRUE,
+	bMRC := FALSE
+);
+F_AmphosMRC_Error := fbAmphosMRC;]]></ST>
+    </Implementation>
+    <LineIds Name="F_AmphosMRC_Error">
+      <LineId Id="10" Count="3" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="FB_AmphosMRC_Test" Id="{ca336742-d98a-4fb2-803e-441a8fd1baa5}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_AmphosMRC_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ErrorTriggers();
+ErrorGoesBackToNormal();
+NoError();]]></ST>
+    </Implementation>
+    <Method Name="ErrorGoesBackToNormal" Id="{b67d5987-969e-4b68-8d88-ccaa51f6b5c3}">
+      <Declaration><![CDATA[METHOD ErrorGoesBackToNormal
+VAR
+	fbAmphosMRC : FB_AmphosMRC := F_AmphosMRC_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorGoesBackToNormal');
+
+fbAmphosMRC(bMRC := TRUE);
+AssertFalse(fbAmphosMRC.bError, 'Error did not go back to normal');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ErrorTriggers" Id="{867246c5-7880-462a-95dd-229505324cdb}">
+      <Declaration><![CDATA[METHOD ErrorTriggers
+VAR
+	fbAmphosMRC : FB_AmphosMRC := F_AmphosMRC_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorTriggers');
+
+AssertTrue(fbAmphosMRC.bError, 'Error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NoError" Id="{def34857-00a5-41f4-a9cb-e6d0f0ab21ec}">
+      <Declaration><![CDATA[METHOD NoError
+VAR
+	fbAmphosMRC : FB_AmphosMRC;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('NoError');
+
+fbAmphosMRC(
+	bAmphosOn := TRUE,
+	bMRC := TRUE
+);
+AssertFalse(fbAmphosMRC.bError, 'Error falsely triggered');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AmphosMRC_Test">
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosMRC_Test.ErrorGoesBackToNormal">
+      <LineId Id="6" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosMRC_Test.ErrorTriggers">
+      <LineId Id="9" Count="1" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosMRC_Test.NoError">
+      <LineId Id="10" Count="1" />
+      <LineId Id="7" Count="2" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
