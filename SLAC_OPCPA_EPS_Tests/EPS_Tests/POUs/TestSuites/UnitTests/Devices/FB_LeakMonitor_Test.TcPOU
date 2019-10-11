@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.17">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
   <POU Name="FB_LeakMonitor_Test" Id="{e7e4db1c-c6e4-470e-83ff-3b26cb0a2d29}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_LeakMonitor_Test EXTENDS FB_TestSuite
@@ -48,7 +48,7 @@ fbLeakMonitor := F_LeakMonitor_LIR_1(stBoundaries => stLeakBoundaries);
 // Leak Error should stay latched even when inputs go back to normal
 fbLeakMonitor(
 	bLeakDetected := FALSE,
-	stBoundaries := stLeakBoundaries
+	stBound := stLeakBoundaries
 );
 
 AssertTrue(fbLeakMonitor.bLeakInsideRacks, 'Leak error did not stay latched');
@@ -70,7 +70,7 @@ fbLeakMonitor := F_LeakMonitor_LIR_1(stBoundaries => stLeakBoundaries);
 
 // Error should be resettable
 fbLeakMonitor.Reset();
-fbLeakMonitor(bLeakDetected := FALSE, stBoundaries := stLeakBoundaries);
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
 AssertFalse(fbLeakMonitor.bLeakInsideRacks, 'Leak error did not reset');
 
 TEST_FINISHED();]]></ST>
@@ -121,7 +121,7 @@ fbLeakMonitor := F_LeakMonitor_LOCO_1(stBoundaries => stLeakBoundaries);
 // Leak Error should stay latched even when inputs go back to normal
 fbLeakMonitor(
 	bLeakDetected := FALSE,
-	stBoundaries := stLeakBoundaries,
+	stBound := stLeakBoundaries,
 );
 AssertTrue(fbLeakMonitor.bLeakOpcpaCarbideOn, 'Leak error did not stay latched');
 
@@ -142,7 +142,7 @@ fbLeakMonitor := F_LeakMonitor_LOCO_1(stBoundaries => stLeakBoundaries);
 
 // Error should be resettable
 fbLeakMonitor.Reset();
-fbLeakMonitor(bLeakDetected := FALSE, stBoundaries := stLeakBoundaries);
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
 AssertFalse(fbLeakMonitor.bLeakOpcpaCarbideOn, 'Leak error did not reset');
 
 TEST_FINISHED();]]></ST>
@@ -191,7 +191,7 @@ fbLeakMonitor := F_LeakMonitor_LOTAO_1(stBoundaries => stLeakBoundaries);
 // Leak Error should stay latched even when inputs go back to normal
 fbLeakMonitor(
 	bLeakDetected := FALSE,
-	stBoundaries := stLeakBoundaries
+	stBound := stLeakBoundaries
 );
 
 AssertTrue(fbLeakMonitor.bLeakOpticalTableAmphosOn, 'Leak error did not stay latched');
@@ -213,7 +213,7 @@ fbLeakMonitor := F_LeakMonitor_LOTAO_1(stBoundaries => stLeakBoundaries);
 
 // Error should be resettable
 fbLeakMonitor.Reset();
-fbLeakMonitor(bLeakDetected := FALSE, stBoundaries := stLeakBoundaries);
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
 AssertFalse(fbLeakMonitor.bLeakOpticalTableAmphosOn, 'Leak error did not reset');
 
 TEST_FINISHED();]]></ST>
@@ -262,7 +262,7 @@ fbLeakMonitor := F_LeakMonitor_LOTNL_1(stBoundaries => stLeakBoundaries);
 // Leak Error should stay latched even when inputs go back to normal
 fbLeakMonitor(
 	bLeakDetected := FALSE,
-	stBoundaries := stLeakBoundaries
+	stBound := stLeakBoundaries
 );
 AssertTrue(fbLeakMonitor.bLeakOpticalTableNoLaser, 'Leak error did not stay latched');
 
@@ -283,7 +283,7 @@ fbLeakMonitor := F_LeakMonitor_LOTNL_1(stBoundaries => stLeakBoundaries);
 
 // Error should be resettable
 fbLeakMonitor.Reset();
-fbLeakMonitor(bLeakDetected := FALSE, stBoundaries := stLeakBoundaries);
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
 AssertFalse(fbLeakMonitor.bLeakOpticalTableNoLaser, 'Leak error did not reset');
 
 TEST_FINISHED();]]></ST>
@@ -332,7 +332,7 @@ fbLeakMonitor := F_LeakMonitor_LUT_1(stBoundaries => stLeakBoundaries);
 // Leak Error should stay latched even when inputs go back to normal
 fbLeakMonitor(
 	bLeakDetected := FALSE,
-	stBoundaries := stLeakBoundaries,
+	stBound := stLeakBoundaries,
 );
 AssertTrue(fbLeakMonitor.bLeakUnderTable, 'Leak error did not stay latched');
 
@@ -353,7 +353,7 @@ fbLeakMonitor := F_LeakMonitor_LUT_1(stBoundaries => stLeakBoundaries);
 
 // Error should be resettable
 fbLeakMonitor.Reset();
-fbLeakMonitor(bLeakDetected := FALSE, stBoundaries := stLeakBoundaries);
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
 AssertFalse(fbLeakMonitor.bLeakUnderTable, 'Leak error did not reset');
 
 TEST_FINISHED();]]></ST>
@@ -403,7 +403,7 @@ fbLeakMonitor(
 	bLeakDetected := FALSE,
 	bAmphosOn := TRUE,
 	bCarbideOn := TRUE,
-	stBoundaries := stLeakBoundaries,
+	stBound := stLeakBoundaries,
 	nLocationResistance := stLeakBoundaries.nLMax6,
 );
 AssertFalse(fbLeakMonitor.bLeakOpticalTableAmphosOn OR fbLeakMonitor.bLeakOpticalTableNoLaser OR fbLeakMonitor.bLeakOpcpaCarbideOn OR fbLeakMonitor.bLeakUnderTable
@@ -488,9 +488,8 @@ TEST_FINISHED();]]></ST>
     <LineIds Name="FB_LeakMonitor_Test.LOTAOLatches">
       <LineId Id="20" Count="1" />
       <LineId Id="14" Count="1" />
-      <LineId Id="6" Count="2" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="16" Count="0" />
+      <LineId Id="29" Count="3" />
+      <LineId Id="6" Count="0" />
       <LineId Id="11" Count="1" />
       <LineId Id="23" Count="0" />
       <LineId Id="5" Count="0" />

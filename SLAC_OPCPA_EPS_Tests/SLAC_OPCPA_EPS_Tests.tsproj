@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4022.28">
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4023.119">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
@@ -40,156 +40,112 @@
 						<Name>PlcTask Inputs</Name>
 						<Var>
 							<Name>GVL_IO.nAmphosVoltageRaw</Name>
-							<Comment>
-								<![CDATA[ Ch1]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nOpcpaVoltageRaw</Name>
-							<Comment>
-								<![CDATA[ Ch1]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw01</Name>
-							<Comment>
-								<![CDATA[ Ch1]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw02</Name>
-							<Comment>
-								<![CDATA[ Ch2]]>
-							</Comment>
+							<Comment><![CDATA[ Ch2]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw03</Name>
-							<Comment>
-								<![CDATA[ Ch3]]>
-							</Comment>
+							<Comment><![CDATA[ Ch3]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw04</Name>
-							<Comment>
-								<![CDATA[ Ch4]]>
-							</Comment>
+							<Comment><![CDATA[ Ch4]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw05</Name>
-							<Comment>
-								<![CDATA[ Ch1]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw06</Name>
-							<Comment>
-								<![CDATA[ Ch2]]>
-							</Comment>
+							<Comment><![CDATA[ Ch2]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw07</Name>
-							<Comment>
-								<![CDATA[ Ch3]]>
-							</Comment>
+							<Comment><![CDATA[ Ch3]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.nTempMonRaw08</Name>
-							<Comment>
-								<![CDATA[ Ch4]]>
-							</Comment>
+							<Comment><![CDATA[ Ch4]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bAmphosOn</Name>
-							<Comment>
-								<![CDATA[ Ch1]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bLeakDetected</Name>
-							<Comment>
-								<![CDATA[ Ch2]]>
-							</Comment>
+							<Comment><![CDATA[ Ch2]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bLoopTempSW01</Name>
-							<Comment>
-								<![CDATA[ Ch3 Loop 01 NC Temp switch]]>
-							</Comment>
+							<Comment><![CDATA[ Ch3 Loop 01 NC Temp switch]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bLoopTempSW02</Name>
-							<Comment>
-								<![CDATA[ Ch4 Loop 02 NC Temp switch]]>
-							</Comment>
+							<Comment><![CDATA[ Ch4 Loop 02 NC Temp switch]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bLoopTempSW03</Name>
-							<Comment>
-								<![CDATA[ Ch5 Loop 03 NC Temp switch]]>
-							</Comment>
+							<Comment><![CDATA[ Ch5 Loop 03 NC Temp switch]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bLoopTempSW04</Name>
-							<Comment>
-								<![CDATA[ Ch6 Loop 04 NC Temp switch]]>
-							</Comment>
+							<Comment><![CDATA[ Ch6 Loop 04 NC Temp switch]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bDumpChillerFlow</Name>
-							<Comment>
-								<![CDATA[ Ch7 Dump chiller NC flow sensor]]>
-							</Comment>
+							<Comment><![CDATA[ Ch7 Dump chiller NC flow sensor]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bBaseplateChillerFlow</Name>
-							<Comment>
-								<![CDATA[ Ch8 Baseplate chiller NC flow sensor]]>
-							</Comment>
+							<Comment><![CDATA[ Ch8 Baseplate chiller NC flow sensor]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bCarbideOn</Name>
-							<Comment>
-								<![CDATA[ Ch1]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bAmphosMRC01</Name>
-							<Comment>
-								<![CDATA[ Ch2 NC Amphos MRC switch]]>
-							</Comment>
+							<Comment><![CDATA[ Ch2 NC Amphos MRC switch]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bAmphosMRC02</Name>
-							<Comment>
-								<![CDATA[ Ch3 NC Amphos MRC switch]]>
-							</Comment>
+							<Comment><![CDATA[ Ch3 NC Amphos MRC switch]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bAmphosMRC03</Name>
-							<Comment>
-								<![CDATA[ Ch4 NC Amphos MRC switch]]>
-							</Comment>
+							<Comment><![CDATA[ Ch4 NC Amphos MRC switch]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -201,9 +157,7 @@
 						<Name>PlcTask Outputs</Name>
 						<Var>
 							<Name>GVL_IO.bAmphosAttenuatorEnable</Name>
-							<Comment>
-								<![CDATA[ Ch1]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -212,9 +166,7 @@
 						</Var>
 						<Var>
 							<Name>GVL_IO.bAmphosShutterEnable</Name>
-							<Comment>
-								<![CDATA[ Ch2]]>
-							</Comment>
+							<Comment><![CDATA[ Ch2]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -223,9 +175,7 @@
 						</Var>
 						<Var>
 							<Name>GVL_IO.bCarbideShutterEnable</Name>
-							<Comment>
-								<![CDATA[ Ch3]]>
-							</Comment>
+							<Comment><![CDATA[ Ch3]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -234,23 +184,17 @@
 						</Var>
 						<Var>
 							<Name>GVL_IO.bDumpChillerRelay</Name>
-							<Comment>
-								<![CDATA[ Ch1 Dump chiller NC relay]]>
-							</Comment>
+							<Comment><![CDATA[ Ch1 Dump chiller NC relay]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bBaseplateChillerRelay</Name>
-							<Comment>
-								<![CDATA[ Ch2 Baseplate chiller NC relay]]>
-							</Comment>
+							<Comment><![CDATA[ Ch2 Baseplate chiller NC relay]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>GVL_IO.bAmphosRelay</Name>
-							<Comment>
-								<![CDATA[ Ch3 Amphos Interlock relay]]>
-							</Comment>
+							<Comment><![CDATA[ Ch3 Amphos Interlock relay]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>

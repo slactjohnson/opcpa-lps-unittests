@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
   <POU Name="F_LeakMonitor_LOTNL_1" Id="{c9f0ccb7-aeed-4622-8418-8dd1776bc54e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_LeakMonitor_LOTNL_1 : FB_LeakMonitor
 VAR_INPUT
@@ -16,7 +16,7 @@ END_VAR
       <ST><![CDATA[fbLeakMonitor(
 	bLeakDetected := TRUE,
 	nLocationResistance := stBoundaries.nLMax4 - 1,
-	stBoundaries := stBoundaries,
+	stBound := stBoundaries,
 );
 
 F_LeakMonitor_LOTNL_1 := fbLeakMonitor;]]></ST>
