@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="FB_DumpChiller_Test" Id="{53397a3d-ecaf-42b9-bc44-be2241179a62}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_DumpChiller_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ErrorTriggers();
+ErrorResets();
+ErrorLatches();
+NoError();]]></ST>
+    </Implementation>
+    <Method Name="ErrorLatches" Id="{4918d277-84e8-432c-9be5-159d999bbd74}">
+      <Declaration><![CDATA[METHOD ErrorLatches
+VAR
+	fbDumpChiller : FB_DumpChiller := F_DumpChiller_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorLatches');
+
+fbDumpChiller(bDumpChillerFlow := TRUE);
+AssertTrue(fbDumpChiller.bError, 'Error did not latch');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ErrorResets" Id="{4549f291-7a5a-45b8-8c94-a44d2dfa627f}">
+      <Declaration><![CDATA[METHOD ErrorResets
+VAR
+	fbDumpChiller : FB_DumpChiller := F_DumpChiller_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorResets');
+
+fbDumpChiller.Reset();
+fbDumpChiller(bDumpChillerFlow := TRUE);
+AssertFalse(fbDumpChiller.bError, 'Error did not reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ErrorTriggers" Id="{8991acc0-a708-4167-8a8c-9ce91b374fbf}">
+      <Declaration><![CDATA[METHOD ErrorTriggers
+VAR
+	fbDumpChiller : FB_DumpChiller := F_DumpChiller_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorTriggers');
+
+AssertTrue(fbDumpChiller.bError, 'Error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NoError" Id="{b9104161-6218-4f80-a48b-0738e37e1166}">
+      <Declaration><![CDATA[METHOD NoError
+VAR
+	fbDumpChiller : FB_DumpChiller;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('NoError');
+
+fbDumpChiller(
+	bAmphosOn := TRUE,
+	bDumpChillerFlow := TRUE
+);
+AssertFalse(fbDumpChiller.bError, 'Error falsely triggered');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_DumpChiller_Test">
+      <LineId Id="10" Count="2" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChiller_Test.ErrorLatches">
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChiller_Test.ErrorResets">
+      <LineId Id="7" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChiller_Test.ErrorTriggers">
+      <LineId Id="9" Count="1" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChiller_Test.NoError">
+      <LineId Id="10" Count="1" />
+      <LineId Id="7" Count="2" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

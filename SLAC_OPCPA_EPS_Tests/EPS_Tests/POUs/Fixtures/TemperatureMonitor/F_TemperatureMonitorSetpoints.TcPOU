@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_TemperatureMonitorSetpoints" Id="{29bceff7-0180-4c10-ba9c-150191a55fd0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_TemperatureMonitorSetpoints : ST_TemperatureMonitorSetpoints
+VAR_INPUT
+END_VAR
+VAR
+	stTempMonSP : ST_TemperatureMonitorSetpoints := (fMaxTemperature := 40);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[F_TemperatureMonitorSetpoints := stTempMonSP;]]></ST>
+    </Implementation>
+    <LineIds Name="F_TemperatureMonitorSetpoints">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

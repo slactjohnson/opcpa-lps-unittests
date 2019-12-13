@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.17">
+  <POU Name="FB_BaseplateChillerEnable_Test" Id="{1f6e178b-ccad-4d1a-b854-05819cec5772}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_BaseplateChillerEnable_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[LocksWithHardwareFailure();
+LocksWithLUTLeak();
+EnablesWhenNoError();]]></ST>
+    </Implementation>
+    <Method Name="EnablesWhenNoError" Id="{57f6cef7-3faf-4ddd-a400-3eedade2fa36}">
+      <Declaration><![CDATA[METHOD EnablesWhenNoError
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWhenNoError');
+
+bResult := F_BaseplateChillerEnable(stErrors := stErrors);
+
+AssertTrue(bResult, 'Baseplate chiller relay did not close');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithHardwareFailure" Id="{0f653f74-9cd9-48f3-952e-e731656590da}">
+      <Declaration><![CDATA[METHOD LocksWithHardwareFailure
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithHardwareFailure');
+
+stErrors.bHardwareFailure := TRUE;
+bResult := F_BaseplateChillerEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Baseplate chiller relay did not open');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLUTLeak" Id="{0c1ef9cd-1633-45b8-9e32-826a019b837e}">
+      <Declaration><![CDATA[METHOD LocksWithLUTLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLUTLeak');
+
+stErrors.bLeakUnderTable := TRUE;
+bResult := F_BaseplateChillerEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Baseplate chiller relay did not open');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_BaseplateChillerEnable_Test">
+      <LineId Id="20" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseplateChillerEnable_Test.EnablesWhenNoError">
+      <LineId Id="6" Count="1" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseplateChillerEnable_Test.LocksWithHardwareFailure">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseplateChillerEnable_Test.LocksWithLUTLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="FB_Laser_Test" Id="{860a4e36-c631-4b10-9868-fa916183422c}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_Laser_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[RawVoltageScales1();
+RawVoltageScales2();
+RawVoltageScales3();
+LowVoltageTriggersError();
+ErrorLatches();
+ErrorResets();
+NoError();]]></ST>
+    </Implementation>
+    <Method Name="ErrorLatches" Id="{321319df-1a26-4143-9715-3e98483394c1}">
+      <Declaration><![CDATA[METHOD ErrorLatches
+VAR
+	fbLaser : FB_Laser;
+	stSetpoints : ST_LaserSetpoints;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorLatches');
+
+// Trigger low voltage error
+fbLaser := F_Laser_Error(stSetpoints => stSetpoints);
+
+// Give non-erronuous input. Laser should stary latched
+fbLaser(bAmphosOn := FALSE, stSetpoints := stSetpoints);
+AssertTrue(fbLaser.bError, 'Laser did not stay latched');
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ErrorResets" Id="{efd0dfe7-adcc-4695-afec-ce88fa7bc915}">
+      <Declaration><![CDATA[METHOD ErrorResets
+VAR
+	fbLaser : FB_Laser;
+	stSetpoints : ST_LaserSetpoints;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorResets');
+
+fbLaser := F_Laser_Error(stSetpoints => stSetpoints);
+
+// Resetting the error on the laser should unlatch the system
+fbLaser.Reset();
+fbLaser(bAmphosOn := FALSE, stSetpoints := stSetpoints);
+AssertFalse(fbLaser.bError, 'System did not unlatch when reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LowVoltageTriggersError" Id="{e4a76605-25ac-44af-b6eb-ae4e39c6c5fc}">
+      <Declaration><![CDATA[METHOD LowVoltageTriggersError
+VAR
+	fbLaser : FB_Laser := F_Laser_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LowVoltageErrorTriggers');
+
+AssertTrue(fbLaser.bError, 'Error not triggered');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NoError" Id="{beb067e4-00b8-4802-9bf4-953e8a2f2d30}">
+      <Declaration><![CDATA[METHOD NoError
+VAR
+	fbLaser : FB_Laser;
+	stSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('NoError');
+
+fbLaser(
+	nVoltageRaw := 16#7736,
+	bAmphosOn := TRUE,
+	stSetpoints := stSetpoints
+);
+AssertFalse(fbLaser.bError, 'Error fasely detected');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RawVoltageScales1" Id="{7c1b2d03-d119-496c-83e5-1c9d35970c07}">
+      <Declaration><![CDATA[METHOD RawVoltageScales1
+VAR
+	fbLaser : FB_Laser;
+	stSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('RawVoltageScales1');
+
+fbLaser(nVoltageRaw := 16#0000, stSetpoints := stSetpoints);
+AssertEquals_LREAL(0, fbLaser.fVoltage, 0.01, 'Incorrect voltage scaling');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RawVoltageScales2" Id="{2f28fb45-46b6-492d-b115-bd95d8cb3d85}">
+      <Declaration><![CDATA[METHOD RawVoltageScales2
+VAR
+	fbLaser : FB_Laser;
+	stSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('RawVoltageScales2');
+
+fbLaser(nVoltageRaw := 16#7736, stSetpoints := stSetpoints);
+AssertEquals_LREAL(10, fbLaser.fVoltage, 0.01, 'Incorrect Amphos voltage scaling');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RawVoltageScales3" Id="{f2882aba-46b2-48e9-8e57-313ab9044dae}">
+      <Declaration><![CDATA[METHOD RawVoltageScales3
+VAR
+	fbLaser : FB_Laser;
+	stSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('RawVoltageScales3');
+
+// Test behavior when given an overrange raw input
+fbLaser(nVoltageRaw := 16#7FFF, stSetpoints := stSetpoints);
+AssertEquals_LREAL(10, fbLaser.fVoltage, 0.01, 'Incorrect Amphos voltage scaling');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Laser_Test">
+      <LineId Id="23" Count="3" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Laser_Test.ErrorLatches">
+      <LineId Id="43" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Laser_Test.ErrorResets">
+      <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="6" Count="3" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Laser_Test.LowVoltageTriggersError">
+      <LineId Id="23" Count="0" />
+      <LineId Id="15" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Laser_Test.NoError">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="15" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Laser_Test.RawVoltageScales1">
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Laser_Test.RawVoltageScales2">
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Laser_Test.RawVoltageScales3">
+      <LineId Id="10" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

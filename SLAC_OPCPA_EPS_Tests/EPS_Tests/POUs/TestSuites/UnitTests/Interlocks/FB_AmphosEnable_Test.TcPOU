@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="FB_AmphosEnable_Test" Id="{c0048a71-40cb-425a-920b-fa92fa66b08c}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_AmphosEnable_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[LocksWithHardwareFailure();
+EnablesWithAmphosMinorError();
+LocksWithAmphosCriticalError();
+EnablesWhenNoError();
+LocksWithPrevError();
+UnlocksWithBeamErrorReset();]]></ST>
+    </Implementation>
+    <Method Name="EnablesWhenNoError" Id="{78be0b16-fc82-4ade-a9ba-17eb954ac394}">
+      <Declaration><![CDATA[METHOD EnablesWhenNoError
+VAR
+	stErrors : st_ErrorStates;
+	stAmphosSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWhenNoError');
+
+bResult := F_AmphosEnable(
+	fAmphosVoltage := stAmphosSetpoints.nMinNominalVoltage,
+	bEnabled := TRUE,
+	stAmphosSetpoints := stAmphosSetpoints,
+	stErrors := stErrors
+);
+AssertTrue(bResult, 'Amphos did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithAmphosMinorError" Id="{a96a87a0-02d5-47d7-bd7b-8eb1f93767db}">
+      <Declaration><![CDATA[METHOD EnablesWithAmphosMinorError
+VAR
+	stErrors : st_ErrorStates;
+	stAmphosSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithAmphosMinorError');
+
+stErrors.bAmphosBeam := TRUE;
+bResult := F_AmphosEnable(
+	fAmphosVoltage := stAmphosSetpoints.nMinNominalVoltage - 0.001,
+	bEnabled := TRUE,
+	stAmphosSetpoints := stAmphosSetpoints,
+	stErrors := stErrors
+);
+AssertTrue(bResult, 'Amphos did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithAmphosCriticalError" Id="{eab64e8c-fe99-4322-be86-62443c42d485}">
+      <Declaration><![CDATA[METHOD LocksWithAmphosCriticalError
+VAR
+	stErrors : st_ErrorStates;
+	stAmphosSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithAmphosCriticalError');
+
+stErrors.bAmphosBeam := TRUE;
+bResult := F_AmphosEnable(
+	fAmphosVoltage := stAmphosSetpoints.nMinVoltage - 0.1,
+	bEnabled := TRUE,
+	stAmphosSetpoints := stAmphosSetpoints,
+	stErrors := stErrors
+);
+AssertFalse(bResult, 'Amphos did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithHardwareFailure" Id="{ea342f1c-19f4-449a-ac36-8ddd6bb1a06e}">
+      <Declaration><![CDATA[METHOD LocksWithHardwareFailure
+VAR
+	stErrors : st_ErrorStates;
+	stAmphosSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithHardwareFailure');
+
+stErrors.bHardwareFailure := TRUE;
+bResult := F_AmphosEnable(
+	fAmphosVoltage := stAmphosSetpoints.nMinNominalVoltage,
+	bEnabled := TRUE,
+	stAmphosSetpoints := stAmphosSetpoints,
+	stErrors := stErrors
+);
+AssertFalse(bResult, 'Amphos did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithPrevError" Id="{eabe7bf9-7626-468b-a342-db7c28449f22}">
+      <Declaration><![CDATA[METHOD LocksWithPrevError
+VAR
+	stErrors : st_ErrorStates;
+	stAmphosSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LatchesWithAmphosCriticalError');
+
+// If the interlock previously failed and there is still a beam error, then lock and stay locked until beam error reset, even if there is only a minor error
+stErrors.bAmphosBeam := TRUE;
+bResult := F_AmphosEnable(
+	fAmphosVoltage := stAmphosSetpoints.nMinNominalVoltage - 0.001, // Minor error
+	bEnabled := FALSE,
+	stAmphosSetpoints := stAmphosSetpoints,
+	stErrors := stErrors
+);
+AssertFalse(bResult, 'Amphos did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UnlocksWithBeamErrorReset" Id="{12874555-36bd-41ee-9054-354d4c598132}">
+      <Declaration><![CDATA[METHOD UnlocksWithBeamErrorReset
+VAR
+	stErrors : st_ErrorStates;
+	stAmphosSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Unlocks with beam error reset');
+
+// Even if bEnabled was false last time, reset if the beam error is now cleared
+bResult := F_AmphosEnable(
+	fAmphosVoltage := stAmphosSetpoints.nMinNominalVoltage,
+	bEnabled := FALSE,
+	stAmphosSetpoints := stAmphosSetpoints,
+	stErrors := stErrors
+);
+AssertTrue(bResult, 'Amphos did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AmphosEnable_Test">
+      <LineId Id="21" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosEnable_Test.EnablesWhenNoError">
+      <LineId Id="6" Count="0" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="10" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosEnable_Test.EnablesWithAmphosMinorError">
+      <LineId Id="10" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="27" Count="2" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosEnable_Test.LocksWithAmphosCriticalError">
+      <LineId Id="10" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="32" Count="3" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosEnable_Test.LocksWithHardwareFailure">
+      <LineId Id="10" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="32" Count="3" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosEnable_Test.LocksWithPrevError">
+      <LineId Id="10" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="11" Count="9" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosEnable_Test.UnlocksWithBeamErrorReset">
+      <LineId Id="12" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="13" Count="8" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

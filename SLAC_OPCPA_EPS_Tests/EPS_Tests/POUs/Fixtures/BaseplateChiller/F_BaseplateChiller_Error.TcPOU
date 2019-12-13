@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_BaseplateChiller_Error" Id="{1be9e493-d087-4dde-af8e-482905c4eb37}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_BaseplateChiller_Error : FB_BaseplateChiller
+VAR_INPUT
+END_VAR
+VAR
+	fbBaseplateChiller : FB_BaseplateChiller;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbBaseplateChiller(bBaseplateChillerFlow := FALSE);
+F_BaseplateChiller_Error := fbBaseplateChiller;]]></ST>
+    </Implementation>
+    <LineIds Name="F_BaseplateChiller_Error">
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

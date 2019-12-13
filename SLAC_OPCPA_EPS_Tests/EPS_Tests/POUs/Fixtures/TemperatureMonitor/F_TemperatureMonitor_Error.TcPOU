@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_TemperatureMonitor_Error" Id="{ef28fab8-7efb-4999-980f-8b5e3f6f9379}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_TemperatureMonitor_Error : FB_TemperatureMonitor
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	stSetpoints : ST_TemperatureMonitorSetpoints := F_TemperatureMonitorSetpoints();
+END_VAR
+VAR
+	fbTempMon : FB_TemperatureMonitor;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbTempMon(
+	nTempMonRaw := 16#7736,
+	bAmphosOn := TRUE,
+	stSetpoints := stSetpoints
+);
+F_TemperatureMonitor_Error := fbTempMon;]]></ST>
+    </Implementation>
+    <LineIds Name="F_TemperatureMonitor_Error">
+      <LineId Id="12" Count="4" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

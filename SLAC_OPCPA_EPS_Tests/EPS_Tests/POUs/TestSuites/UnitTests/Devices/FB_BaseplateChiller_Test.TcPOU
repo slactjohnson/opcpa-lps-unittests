@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="FB_BaseplateChiller_Test" Id="{572d3bba-8454-4f82-8787-2e97fb394969}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_BaseplateChiller_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ErrorTriggers();
+ErrorResets();
+ErrorLatches();
+NoError();]]></ST>
+    </Implementation>
+    <Method Name="ErrorLatches" Id="{58214f70-e372-4736-8bfc-f1749ed7fbb3}">
+      <Declaration><![CDATA[METHOD ErrorLatches
+VAR
+	fbBaseplateChiller : FB_BaseplateChiller := F_BaseplateChiller_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorLatches');
+
+fbBaseplateChiller(bBaseplateChillerFlow := TRUE);
+AssertTrue(fbBaseplateChiller.bError, 'Error did not latch');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ErrorResets" Id="{32fb2b02-0dbd-48f4-ac77-6d502573fb17}">
+      <Declaration><![CDATA[METHOD ErrorResets
+VAR
+	fbBaseplateChiller : FB_BaseplateChiller := F_BaseplateChiller_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorResets');
+
+fbBaseplateChiller.Reset();
+fbBaseplateChiller(bBaseplateChillerFlow := TRUE);
+AssertFalse(fbBaseplateChiller.bError, 'Error did not reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ErrorTriggers" Id="{e75ff8cd-5e84-4dec-b552-f9030ddf8e8a}">
+      <Declaration><![CDATA[METHOD ErrorTriggers
+VAR
+	fbBaseplateChiller : FB_BaseplateChiller := F_BaseplateChiller_Error();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('ErrorTriggers');
+
+AssertTrue(fbBaseplateChiller.bError, 'Error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NoError" Id="{6c8e266e-98ed-4819-a029-9292e0cd29ec}">
+      <Declaration><![CDATA[METHOD NoError
+VAR
+	fbBaseplateChiller : FB_BaseplateChiller;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('NoError');
+
+fbBaseplateChiller(bBaseplateChillerFlow := TRUE);
+AssertFalse(fbBaseplateChiller.bError, 'Error falsely triggered');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_BaseplateChiller_Test">
+      <LineId Id="10" Count="2" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseplateChiller_Test.ErrorLatches">
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseplateChiller_Test.ErrorResets">
+      <LineId Id="7" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseplateChiller_Test.ErrorTriggers">
+      <LineId Id="9" Count="1" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BaseplateChiller_Test.NoError">
+      <LineId Id="10" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
