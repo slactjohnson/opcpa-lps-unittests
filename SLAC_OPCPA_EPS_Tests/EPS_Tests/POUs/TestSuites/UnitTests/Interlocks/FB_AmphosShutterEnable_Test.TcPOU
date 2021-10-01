@@ -1,0 +1,1024 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.17">
+  <POU Name="FB_AmphosShutterEnable_Test" Id="{003c19f0-18c9-4e63-8c2d-0d1529cf21e6}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_AmphosShutterEnable_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[LocksWithHardwareFailure();
+LocksWithLOCOLeak();
+LocksWithLOTAOLeak();
+LocksWithLUTLeak();
+LocksWithAmphosOnAndTemperatureEvent01();
+LocksWithAmphosOnAndTemperatureEvent02();
+LocksWithAmphosOnAndTemperatureEvent03();
+LocksWithAmphosOnAndTemperatureEvent04();
+LocksWithTempMonError01();
+LocksWithTempMonError02();
+LocksWithTempMonError03();
+LocksWithTempMonError04();
+LocksWithTempMonError05();
+LocksWithTempMonError06();
+LocksWithTempMonError07();
+LocksWithTempMonError08();
+LocksWithOpcpaCriticalError();
+LocksWithDumpChillerError();
+LocksWithMRCError02();
+LocksWithMRCError03();
+EnablesWithAmphosOffAndTemperatureEvent01();
+EnablesWithAmphosOffAndTemperatureEvent02();
+EnablesWithAmphosOffAndTemperatureEvent03();
+EnablesWithAmphosOffAndTemperatureEvent04();
+EnablesWithTemperatureEventOverride01();
+EnablesWithTemperatureEventOverride02();
+EnablesWithTemperatureEventOverride03();
+EnablesWithTemperatureEventOverride04();
+EnablesWithOpcpaMinorError();
+EnablesWhenNoError();
+]]></ST>
+    </Implementation>
+    <Method Name="EnablesWhenNoError" Id="{073e45da-bab5-4ad7-ba6c-e7e3d3582e6b}">
+      <Declaration><![CDATA[METHOD EnablesWhenNoError
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWhenNoError');
+
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithAmphosOffAndTemperatureEvent01" Id="{6b254004-17be-4ccd-bff4-6ed05457aecc}">
+      <Declaration><![CDATA[METHOD EnablesWithAmphosOffAndTemperatureEvent01
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithAmphosOffAndTemperatureEvent01');
+
+stErrors.bChillerLoop01 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := FALSE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithAmphosOffAndTemperatureEvent02" Id="{0b69e9f4-9eca-4fe3-a56b-09838e2d815d}">
+      <Declaration><![CDATA[METHOD EnablesWithAmphosOffAndTemperatureEvent02
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithAmphosOffAndTemperatureEvent02');
+
+stErrors.bChillerLoop02 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := FALSE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithAmphosOffAndTemperatureEvent03" Id="{ac4627a4-aab9-4c34-8899-1f167dc7e06a}">
+      <Declaration><![CDATA[METHOD EnablesWithAmphosOffAndTemperatureEvent03
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithAmphosOffAndTemperatureEvent03');
+
+stErrors.bChillerLoop03 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := FALSE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithAmphosOffAndTemperatureEvent04" Id="{23ec8852-e2d8-4329-866c-f1226e7e901e}">
+      <Declaration><![CDATA[METHOD EnablesWithAmphosOffAndTemperatureEvent04
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithAmphosOffAndTemperatureEvent04');
+
+stErrors.bChillerLoop04 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := FALSE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithOpcpaMinorError" Id="{fd881f51-9c28-4e11-8800-5f27f02870db}">
+      <Declaration><![CDATA[METHOD EnablesWithOpcpaMinorError
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithOpcpaMinorError');
+
+stErrors.bOpcpaBeam := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage - 0.001, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithTemperatureEventOverride01" Id="{ece501f0-c578-4b02-80e9-cb4721d8b6d5}">
+      <Declaration><![CDATA[METHOD EnablesWithTemperatureEventOverride01
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithTemperatureEventOverride01');
+
+stErrors.bChillerLoop01 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := TRUE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithTemperatureEventOverride02" Id="{d4c7792e-1f61-417b-aeeb-1057d2498c55}">
+      <Declaration><![CDATA[METHOD EnablesWithTemperatureEventOverride02
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithTemperatureEventOverride02');
+
+stErrors.bChillerLoop02 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := TRUE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithTemperatureEventOverride03" Id="{93a87445-6cf1-4dba-bde8-dd5cf9a68c17}">
+      <Declaration><![CDATA[METHOD EnablesWithTemperatureEventOverride03
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithTemperatureEventOverride03');
+
+stErrors.bChillerLoop03 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := TRUE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablesWithTemperatureEventOverride04" Id="{d1f00ddc-a889-4939-915e-2768ec4cf363}">
+      <Declaration><![CDATA[METHOD EnablesWithTemperatureEventOverride04
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWithTemperatureEventOverride04');
+
+stErrors.bChillerLoop04 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := TRUE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertTrue(bResult, 'Amphos Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithAmphosOnAndTemperatureEvent01" Id="{662b51f8-8f66-4fbf-bb56-1241734e69d9}">
+      <Declaration><![CDATA[METHOD LocksWithAmphosOnAndTemperatureEvent01
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithAmphosOnAndTemperatureEvent01');
+
+stErrors.bChillerLoop01 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithAmphosOnAndTemperatureEvent02" Id="{236cabca-1ab4-4b17-97a8-e591567c64fb}">
+      <Declaration><![CDATA[METHOD LocksWithAmphosOnAndTemperatureEvent02
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithAmphosOnAndTemperatureEvent02');
+
+stErrors.bChillerLoop02 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithAmphosOnAndTemperatureEvent03" Id="{5745d4f0-3bf8-4b37-92b3-87d0a40e2b85}">
+      <Declaration><![CDATA[METHOD LocksWithAmphosOnAndTemperatureEvent03
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithAmphosOnAndTemperatureEvent03');
+
+stErrors.bChillerLoop03 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithAmphosOnAndTemperatureEvent04" Id="{e872d4ae-7049-4674-9e30-25b2069f30e8}">
+      <Declaration><![CDATA[METHOD LocksWithAmphosOnAndTemperatureEvent04
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithAmphosOnAndTemperatureEvent04');
+
+stErrors.bChillerLoop04 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithDumpChillerError" Id="{6aef82c6-6293-4c61-b609-5c9371e3e53b}">
+      <Declaration><![CDATA[METHOD LocksWithDumpChillerError
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithDumpChillerError');
+
+stErrors.bDumpChiller := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithHardwareFailure" Id="{a42f0405-354a-4b42-90c7-b52d9dc9cf21}">
+      <Declaration><![CDATA[METHOD LocksWithHardwareFailure
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithHardwareFailure');
+
+stErrors.bHardwareFailure := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOCOLeak" Id="{91dd1cee-ab35-4242-af87-11f34e00c99b}">
+      <Declaration><![CDATA[METHOD LocksWithLOCOLeak
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOCOLeak');
+
+stErrors.bLeakOpcpaCarbideOn := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOTAOLeak" Id="{72405b24-2bcc-4d93-a3ae-f702e92929cd}">
+      <Declaration><![CDATA[METHOD LocksWithLOTAOLeak
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOTAOLeak');
+
+stErrors.bLeakOpticalTableAmphosOn := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLUTLeak" Id="{a04eef41-8280-4c52-9b8d-74bedfe2bdbc}">
+      <Declaration><![CDATA[METHOD LocksWithLUTLeak
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLUTLeak');
+
+stErrors.bLeakUnderTable := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithMRCError02" Id="{26e46157-21ae-4473-828b-31afc1338e16}">
+      <Declaration><![CDATA[METHOD LocksWithMRCError02
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithMRCError02');
+
+stErrors.bAmphosMRC02 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithMRCError03" Id="{4bdcf774-43ac-4b27-8480-469e007c397f}">
+      <Declaration><![CDATA[METHOD LocksWithMRCError03
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithMRCError03');
+
+stErrors.bAmphosMRC03 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithOpcpaCriticalError" Id="{c17b86f8-025b-4320-a4b5-7331a7f9f5a9}">
+      <Declaration><![CDATA[METHOD LocksWithOpcpaCriticalError
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithOpcpaCriticalError');
+
+stErrors.bOpcpaBeam := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinVoltage - 1, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError01" Id="{90bd4956-9c90-4069-93be-d3d9bf695bf9}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError01
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError01');
+
+stErrors.bTempMon01 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError02" Id="{69ff6c56-5168-4f7d-b6b7-b6b4d864cfed}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError02
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError02');
+
+stErrors.bTempMon02 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError03" Id="{33187f00-3335-491e-827f-e095cf24a5a7}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError03
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError03');
+
+stErrors.bTempMon03 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError04" Id="{9280837d-f10b-4a13-959f-9459ccd5076b}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError04
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError04');
+
+stErrors.bTempMon04 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError05" Id="{a3b8cb22-10a1-49c7-af15-27a746f22d9a}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError05
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError05');
+
+stErrors.bTempMon05 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError06" Id="{bcdd067a-2439-4556-8284-f79fa30c19ed}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError06
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError06');
+
+stErrors.bTempMon06 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError07" Id="{b3cc9b9b-59ef-4db0-854d-66f239421b0c}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError07
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError07');
+
+stErrors.bTempMon07 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithTempMonError08" Id="{fb72dc15-3b01-46db-8fd8-cdd9a8c4166e}">
+      <Declaration><![CDATA[METHOD LocksWithTempMonError08
+VAR
+	stErrors : st_ErrorStates;
+	stOpcpaSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithTempMonError08');
+
+stErrors.bTempMon08 := TRUE;
+bResult := F_AmphosShutterEnable(
+	bAmphosOn := TRUE, 
+	fOpcpaVoltage := stOpcpaSetpoints.nMinNominalVoltage, 
+	bLoopTempOverride01 := FALSE,
+	bLoopTempOverride02 := FALSE,
+	bLoopTempOverride03 := FALSE,
+	bLoopTempOverride04 := FALSE,
+	stErrors := stErrors,
+	stOpcpaSetpoints := stOpcpaSetpoints
+);
+
+AssertFalse(bResult, 'Amphos Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AmphosShutterEnable_Test">
+      <LineId Id="60" Count="0" />
+      <LineId Id="12" Count="5" />
+      <LineId Id="40" Count="11" />
+      <LineId Id="18" Count="7" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWhenNoError">
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="13" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithAmphosOffAndTemperatureEvent01">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithAmphosOffAndTemperatureEvent02">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithAmphosOffAndTemperatureEvent03">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithAmphosOffAndTemperatureEvent04">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithOpcpaMinorError">
+      <LineId Id="10" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="11" Count="13" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithTemperatureEventOverride01">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithTemperatureEventOverride02">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithTemperatureEventOverride03">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.EnablesWithTemperatureEventOverride04">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithAmphosOnAndTemperatureEvent01">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithAmphosOnAndTemperatureEvent02">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithAmphosOnAndTemperatureEvent03">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithAmphosOnAndTemperatureEvent04">
+      <LineId Id="6" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithDumpChillerError">
+      <LineId Id="10" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithHardwareFailure">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="15" Count="6" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithLOCOLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="15" Count="6" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithLOTAOLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="15" Count="10" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithLUTLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="15" Count="10" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithMRCError02">
+      <LineId Id="10" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithMRCError03">
+      <LineId Id="10" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithOpcpaCriticalError">
+      <LineId Id="10" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="11" Count="13" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError01">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError02">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError03">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError04">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError05">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError06">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError07">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosShutterEnable_Test.LocksWithTempMonError08">
+      <LineId Id="15" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

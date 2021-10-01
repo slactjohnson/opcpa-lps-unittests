@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.17">
+  <POU Name="FB_CarbideShutterEnable_Test" Id="{12de6daa-2e93-4cf6-a175-72c7908e4818}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_CarbideShutterEnable_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[LocksWithHardwareFailure();
+LocksWithLOCOLeak();
+LocksWithLUTLeak();
+EnablesWhenNoError();]]></ST>
+    </Implementation>
+    <Method Name="EnablesWhenNoError" Id="{d35f6819-3cc1-425c-b98c-a24d3a5c17ac}">
+      <Declaration><![CDATA[METHOD EnablesWhenNoError
+VAR
+	stErrors : ST_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWhenNoErrors');
+
+bResult := F_CarbideShutterEnable(stErrors := stErrors);
+
+AssertTrue(bResult, 'Carbide Shutter did not enable');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithHardwareFailure" Id="{25e3c8ee-3140-46f3-988f-b8adec232a2e}">
+      <Declaration><![CDATA[METHOD LocksWithHardwareFailure
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithHardwareFailure');
+
+stErrors.bHardwareFailure := TRUE;
+bResult := F_CarbideShutterEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Carbide Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOCOLeak" Id="{3ffd3ee4-1739-44f7-84e6-c166e3dea094}">
+      <Declaration><![CDATA[METHOD LocksWithLOCOLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOCOLeak');
+
+stErrors.bLeakOpcpaCarbideOn := TRUE;
+bResult := F_CarbideShutterEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Carbide Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLUTLeak" Id="{db1f4eaa-6df6-4aad-8499-aba8a84c8b8d}">
+      <Declaration><![CDATA[METHOD LocksWithLUTLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLUTLeak');
+
+stErrors.bLeakUnderTable := TRUE;
+bResult := F_CarbideShutterEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Carbide Shutter did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CarbideShutterEnable_Test">
+      <LineId Id="21" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CarbideShutterEnable_Test.EnablesWhenNoError">
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CarbideShutterEnable_Test.LocksWithHardwareFailure">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CarbideShutterEnable_Test.LocksWithLOCOLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CarbideShutterEnable_Test.LocksWithLUTLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

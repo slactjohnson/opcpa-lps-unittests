@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.17">
+  <POU Name="FB_DumpChillerEnable_Test" Id="{a14a40e3-e678-4c74-b00e-5f2ba0622eed}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_DumpChillerEnable_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[LocksWithHardwareFailure();
+LocksWithLUTLeak();
+LocksWithLOTAOLeak();
+LocksWithLOTNLLeak();
+LocksWithLOCOLeak();
+EnablesWhenNoError();]]></ST>
+    </Implementation>
+    <Method Name="EnablesWhenNoError" Id="{85dda632-467c-4749-a511-cdb805b38063}">
+      <Declaration><![CDATA[METHOD EnablesWhenNoError
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWhenNoError');
+
+bResult := F_DumpChillerEnable(stErrors := stErrors);
+
+AssertTrue(bResult, 'Dump chiller relay did not close');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithHardwareFailure" Id="{4305fef1-3f26-4339-8562-d40fb551ab84}">
+      <Declaration><![CDATA[METHOD LocksWithHardwareFailure
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithHardwareFailure');
+
+stErrors.bHardwareFailure := TRUE;
+bResult := F_DumpChillerEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Dump chiller relay did not open');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOCOLeak" Id="{2e88444b-c045-4dc5-bbd8-8671c9554878}">
+      <Declaration><![CDATA[METHOD LocksWithLOCOLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOCOLeak');
+
+stErrors.bLeakOpcpaCarbideOn := TRUE;
+bResult := F_DumpChillerEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Dump chiller relay did not open');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOTAOLeak" Id="{e53b8efc-a6a2-4f5f-b303-4716304d0f05}">
+      <Declaration><![CDATA[METHOD LocksWithLOTAOLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOTAOLeak');
+
+stErrors.bLeakOpticalTableAmphosOn := TRUE;
+bResult := F_DumpChillerEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Dump chiller relay did not open');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOTNLLeak" Id="{1f7a6d3d-be09-417b-8842-c43116a9599b}">
+      <Declaration><![CDATA[METHOD LocksWithLOTNLLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOTNLLeak');
+
+stErrors.bLeakOpticalTableNoLaser := TRUE;
+bResult := F_DumpChillerEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Dump chiller relay did not open');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLUTLeak" Id="{7dfde73b-deb2-4b0f-a5b0-be5e5c1041dd}">
+      <Declaration><![CDATA[METHOD LocksWithLUTLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLUTLeak');
+
+stErrors.bLeakUnderTable := TRUE;
+bResult := F_DumpChillerEnable(stErrors := stErrors);
+
+AssertFalse(bResult, 'Dump chiller relay did not open');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_DumpChillerEnable_Test">
+      <LineId Id="23" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChillerEnable_Test.EnablesWhenNoError">
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChillerEnable_Test.LocksWithHardwareFailure">
+      <LineId Id="9" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChillerEnable_Test.LocksWithLOCOLeak">
+      <LineId Id="9" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChillerEnable_Test.LocksWithLOTAOLeak">
+      <LineId Id="9" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChillerEnable_Test.LocksWithLOTNLLeak">
+      <LineId Id="9" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_DumpChillerEnable_Test.LocksWithLUTLeak">
+      <LineId Id="9" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

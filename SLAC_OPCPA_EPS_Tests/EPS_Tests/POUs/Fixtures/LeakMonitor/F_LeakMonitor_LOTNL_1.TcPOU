@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="F_LeakMonitor_LOTNL_1" Id="{c9f0ccb7-aeed-4622-8418-8dd1776bc54e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_LeakMonitor_LOTNL_1 : FB_LeakMonitor
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	// Provide stBoundaries output so test functions can reuse the boundaries
+	stBoundaries : ST_LeakBoundaries := F_LeakBoundaries();
+END_VAR
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbLeakMonitor(
+	bLeakDetected := TRUE,
+	nLocationResistance := stBoundaries.nLMax4 - 1,
+	stBound := stBoundaries,
+);
+
+F_LeakMonitor_LOTNL_1 := fbLeakMonitor;]]></ST>
+    </Implementation>
+    <LineIds Name="F_LeakMonitor_LOTNL_1">
+      <LineId Id="67" Count="5" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

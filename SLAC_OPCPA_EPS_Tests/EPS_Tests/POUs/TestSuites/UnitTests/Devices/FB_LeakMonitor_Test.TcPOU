@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="FB_LeakMonitor_Test" Id="{e7e4db1c-c6e4-470e-83ff-3b26cb0a2d29}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_LeakMonitor_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[LOTAOTriggers1();
+LOTAOTriggers2();
+LOTAOLatches();
+LOTAOResets();
+LOTNLTriggers1();
+LOTNLTriggers2();
+LOTNLLatches();
+LOTNLResets();
+LOCOTriggers1();
+LOCOTriggers2();
+LOCOLatches();
+LOCOResets();
+LUTTriggers1();
+LUTTriggers2();
+LUTLatches();
+LUTResets();
+LIRTriggers1();
+LIRTriggers2();
+LIRLatches();
+LIRResets();
+NoLeak();]]></ST>
+    </Implementation>
+    <Method Name="LIRLatches" Id="{7fa63837-983e-4ea3-b140-cc5e94a25d71}">
+      <Declaration><![CDATA[METHOD LIRLatches
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakInsideRacksLatches');
+
+fbLeakMonitor := F_LeakMonitor_LIR_1(stBoundaries => stLeakBoundaries);
+
+// Leak Error should stay latched even when inputs go back to normal
+fbLeakMonitor(
+	bLeakDetected := FALSE,
+	stBound := stLeakBoundaries
+);
+
+AssertTrue(fbLeakMonitor.bLeakInsideRacks, 'Leak error did not stay latched');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LIRResets" Id="{8803dd34-02cd-4ab8-966e-a8464ebce051}">
+      <Declaration><![CDATA[METHOD LIRResets
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakInsideRacksResets');
+
+fbLeakMonitor := F_LeakMonitor_LIR_1(stBoundaries => stLeakBoundaries);
+
+// Error should be resettable
+fbLeakMonitor.Reset();
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
+AssertFalse(fbLeakMonitor.bLeakInsideRacks, 'Leak error did not reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LIRTriggers1" Id="{4fb51dcb-69a6-416e-babc-44de1e243bf1}">
+      <Declaration><![CDATA[METHOD LIRTriggers1
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LIR_1();
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakInsideRacksTriggers1');
+
+AssertTrue(fbLeakMonitor.bLeakInsideRacks, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LIRTriggers2" Id="{3d9f057f-9248-4e2e-9721-76c0e985ceaa}">
+      <Declaration><![CDATA[METHOD LIRTriggers2
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LIR_2();
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakInsideRacksTriggers2');
+
+AssertTrue(fbLeakMonitor.bLeakInsideRacks, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOCOLatches" Id="{43be45d4-0016-4d8c-9274-e2c7b6562fad}">
+      <Declaration><![CDATA[METHOD LOCOLatches
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpcpaCarbideOnLatches');
+
+fbLeakMonitor := F_LeakMonitor_LOCO_1(stBoundaries => stLeakBoundaries);
+
+// Leak Error should stay latched even when inputs go back to normal
+fbLeakMonitor(
+	bLeakDetected := FALSE,
+	stBound := stLeakBoundaries,
+);
+AssertTrue(fbLeakMonitor.bLeakOpcpaCarbideOn, 'Leak error did not stay latched');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOCOResets" Id="{9be9b98f-b5d8-4350-a5d4-724d6e93fb88}">
+      <Declaration><![CDATA[METHOD LOCOResets
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpcpaCarbideOnResets');
+
+fbLeakMonitor := F_LeakMonitor_LOCO_1(stBoundaries => stLeakBoundaries);
+
+// Error should be resettable
+fbLeakMonitor.Reset();
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
+AssertFalse(fbLeakMonitor.bLeakOpcpaCarbideOn, 'Leak error did not reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOCOTriggers1" Id="{095ea75a-a116-46d9-8b51-781b925f9570}">
+      <Declaration><![CDATA[METHOD LOCOTriggers1
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LOCO_1();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpcpaCarbideOnTriggers11');
+
+AssertTrue(fbLeakMonitor.bLeakOpcpaCarbideOn, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOCOTriggers2" Id="{5e1b77b1-e349-423c-9e8d-f9c58c7f5794}">
+      <Declaration><![CDATA[METHOD LOCOTriggers2
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LOCO_2();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpcpaCarbideOnTriggers2');
+
+AssertTrue(fbLeakMonitor.bLeakOpcpaCarbideOn, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTAOLatches" Id="{469a5268-7865-4459-bd89-a6f020c4ffee}">
+      <Declaration><![CDATA[METHOD LOTAOLatches
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableAmphosOnLatches');
+
+fbLeakMonitor := F_LeakMonitor_LOTAO_1(stBoundaries => stLeakBoundaries);
+
+// Leak Error should stay latched even when inputs go back to normal
+fbLeakMonitor(
+	bLeakDetected := FALSE,
+	stBound := stLeakBoundaries
+);
+
+AssertTrue(fbLeakMonitor.bLeakOpticalTableAmphosOn, 'Leak error did not stay latched');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTAOResets" Id="{ec9fa339-8ada-417c-bdbe-c033a3b02bbd}">
+      <Declaration><![CDATA[METHOD LOTAOResets
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableAmphosOnResets');
+
+fbLeakMonitor := F_LeakMonitor_LOTAO_1(stBoundaries => stLeakBoundaries);
+
+// Error should be resettable
+fbLeakMonitor.Reset();
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
+AssertFalse(fbLeakMonitor.bLeakOpticalTableAmphosOn, 'Leak error did not reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTAOTriggers1" Id="{275d5fe8-71c1-4e3b-94ed-a98f9ca832ad}">
+      <Declaration><![CDATA[METHOD LOTAOTriggers1
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LOTAO_1();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableAmphosOnTriggers1');
+
+AssertTrue(fbLeakMonitor.bLeakOpticalTableAmphosOn, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTAOTriggers2" Id="{0a483ae8-0dd5-4013-bc2a-37ae27b2ac2d}">
+      <Declaration><![CDATA[METHOD LOTAOTriggers2
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LOTAO_2();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableAmphosOnTriggers2');
+
+AssertTrue(fbLeakMonitor.bLeakOpticalTableAmphosOn, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTNLLatches" Id="{0be33797-17ae-4571-9257-62fb45685960}">
+      <Declaration><![CDATA[METHOD LOTNLLatches
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableNoLaserLatches');
+
+fbLeakMonitor := F_LeakMonitor_LOTNL_1(stBoundaries => stLeakBoundaries);
+
+// Leak Error should stay latched even when inputs go back to normal
+fbLeakMonitor(
+	bLeakDetected := FALSE,
+	stBound := stLeakBoundaries
+);
+AssertTrue(fbLeakMonitor.bLeakOpticalTableNoLaser, 'Leak error did not stay latched');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTNLResets" Id="{585568e5-9bb8-4000-ad33-7b3f12cdd84e}">
+      <Declaration><![CDATA[METHOD LOTNLResets
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableNoLaserResets');
+
+fbLeakMonitor := F_LeakMonitor_LOTNL_1(stBoundaries => stLeakBoundaries);
+
+// Error should be resettable
+fbLeakMonitor.Reset();
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
+AssertFalse(fbLeakMonitor.bLeakOpticalTableNoLaser, 'Leak error did not reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTNLTriggers1" Id="{e5a3d21a-9a36-455b-82b8-42ef73a8ca61}">
+      <Declaration><![CDATA[METHOD LOTNLTriggers1
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LOTNL_1();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableNoLaserTriggers1');
+
+AssertTrue(fbLeakMonitor.bLeakOpticalTableNoLaser, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LOTNLTriggers2" Id="{1c0de105-19e9-40f2-96a4-a1341bb6140c}">
+      <Declaration><![CDATA[METHOD LOTNLTriggers2
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LOTNL_2();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakOpticalTableNoLaserTriggers2');
+
+AssertTrue(fbLeakMonitor.bLeakOpticalTableNoLaser, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LUTLatches" Id="{aeb67bed-623e-4b3b-9088-6d04b93d352d}">
+      <Declaration><![CDATA[METHOD LUTLatches
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakUnderTableLatches');
+
+fbLeakMonitor := F_LeakMonitor_LUT_1(stBoundaries => stLeakBoundaries);
+
+// Leak Error should stay latched even when inputs go back to normal
+fbLeakMonitor(
+	bLeakDetected := FALSE,
+	stBound := stLeakBoundaries,
+);
+AssertTrue(fbLeakMonitor.bLeakUnderTable, 'Leak error did not stay latched');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LUTResets" Id="{7b9715cc-9225-499c-96ab-b2b68564ea25}">
+      <Declaration><![CDATA[METHOD LUTResets
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakUnderTableResets');
+
+fbLeakMonitor := F_LeakMonitor_LUT_1(stBoundaries => stLeakBoundaries);
+
+// Error should be resettable
+fbLeakMonitor.Reset();
+fbLeakMonitor(bLeakDetected := FALSE, stBound := stLeakBoundaries);
+AssertFalse(fbLeakMonitor.bLeakUnderTable, 'Leak error did not reset');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LUTTriggers1" Id="{04d682b9-6af2-49ee-8b34-e73b4822969c}">
+      <Declaration><![CDATA[METHOD LUTTriggers1
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LUT_1();
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakUnderTableTriggers1');
+
+AssertTrue(fbLeakMonitor.bLeakUnderTable, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LUTTriggers2" Id="{f6e258a6-9cc0-45eb-8bec-ef7098c23dd1}">
+      <Declaration><![CDATA[METHOD LUTTriggers2
+VAR
+	fbLeakMonitor : FB_LeakMonitor := F_LeakMonitor_LUT_2();
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LeakUnderTableTriggers2');
+
+AssertTrue(fbLeakMonitor.bLeakUnderTable, 'Leak error did not trigger');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NoLeak" Id="{5c679667-707c-40bf-9b54-79b1bd0e59be}">
+      <Declaration><![CDATA[METHOD NoLeak
+VAR
+	fbLeakMonitor : FB_LeakMonitor;
+	stLeakBoundaries : ST_LeakBoundaries := F_LeakBoundaries();
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('NoLeak');
+
+fbLeakMonitor(
+	bLeakDetected := FALSE,
+	bAmphosOn := TRUE,
+	bCarbideOn := TRUE,
+	stBound := stLeakBoundaries,
+	nLocationResistance := stLeakBoundaries.nLMax6,
+);
+AssertFalse(fbLeakMonitor.bLeakOpticalTableAmphosOn OR fbLeakMonitor.bLeakOpticalTableNoLaser OR fbLeakMonitor.bLeakOpcpaCarbideOn OR fbLeakMonitor.bLeakUnderTable
+	OR fbLeakMonitor.bLeakInsideRacks, 'Leak fasely detected');
+	
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_LeakMonitor_Test">
+      <LineId Id="177" Count="0" />
+      <LineId Id="162" Count="2" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="165" Count="2" />
+      <LineId Id="179" Count="0" />
+      <LineId Id="168" Count="2" />
+      <LineId Id="180" Count="0" />
+      <LineId Id="171" Count="2" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="174" Count="2" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LIRLatches">
+      <LineId Id="88" Count="1" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="91" Count="6" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LIRResets">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LIRTriggers1">
+      <LineId Id="57" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LIRTriggers2">
+      <LineId Id="57" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOCOLatches">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="29" Count="2" />
+      <LineId Id="33" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOCOResets">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOCOTriggers1">
+      <LineId Id="88" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOCOTriggers2">
+      <LineId Id="88" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTAOLatches">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="29" Count="3" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTAOResets">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTAOTriggers1">
+      <LineId Id="64" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTAOTriggers2">
+      <LineId Id="64" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTNLLatches">
+      <LineId Id="82" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="88" Count="2" />
+      <LineId Id="92" Count="2" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTNLResets">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTNLTriggers1">
+      <LineId Id="64" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LOTNLTriggers2">
+      <LineId Id="64" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LUTLatches">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="29" Count="2" />
+      <LineId Id="33" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LUTResets">
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LUTTriggers1">
+      <LineId Id="54" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.LUTTriggers2">
+      <LineId Id="54" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LeakMonitor_Test.NoLeak">
+      <LineId Id="9" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="10" Count="2" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

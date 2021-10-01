@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_DumpChiller_Error" Id="{58e23adf-f2cb-4323-9c7d-f5f434c77017}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_DumpChiller_Error : FB_DumpChiller
+VAR_INPUT
+END_VAR
+VAR
+	fbDumpChiller : FB_DumpChiller;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbDumpChiller(
+	bAmphosOn := TRUE,
+	bDumpChillerFlow := FALSE
+);
+F_DumpChiller_Error := fbDumpChiller;]]></ST>
+    </Implementation>
+    <LineIds Name="F_DumpChiller_Error">
+      <LineId Id="10" Count="2" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

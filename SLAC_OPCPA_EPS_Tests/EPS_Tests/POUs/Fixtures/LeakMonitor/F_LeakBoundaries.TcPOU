@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_LeakBoundaries" Id="{d9d75f4b-af19-479d-9bc9-5809cb8f372a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_LeakBoundaries : ST_LeakBoundaries
+VAR_INPUT
+END_VAR
+VAR
+	stLeakBoundaries : ST_LeakBoundaries := (
+		nLMin1 := 0,
+		nLMax1 := 1000,
+		nLMin2 := 1000,
+		nLMax2 := 2000,
+		nLMin3 := 2000,
+		nLMax3 := 3000,
+		nLMin4 := 3000,
+		nLMax4 := 4000,
+		nLMin5 := 4000,
+		nLMax5 := 5000,
+		nLMin6 := 5000,
+		nLMax6 := 6000
+	);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[F_LeakBoundaries := stLeakBoundaries;]]></ST>
+    </Implementation>
+    <LineIds Name="F_LeakBoundaries">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

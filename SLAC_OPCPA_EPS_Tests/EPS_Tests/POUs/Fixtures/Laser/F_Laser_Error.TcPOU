@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.14">
+  <POU Name="F_Laser_Error" Id="{3fd35628-9ceb-4858-a819-40303a3e6a46}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_Laser_Error : FB_Laser
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	stSetpoints : ST_LaserSetpoints := F_LaserSetpoints();
+END_VAR
+VAR
+	fbLaser : FB_Laser;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbLaser(
+	nVoltageRaw := 0,
+	bAmphosOn := TRUE,
+	stSetpoints := stSetpoints
+);
+
+F_Laser_Error := fbLaser;
+	]]></ST>
+    </Implementation>
+    <LineIds Name="F_Laser_Error">
+      <LineId Id="52" Count="6" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

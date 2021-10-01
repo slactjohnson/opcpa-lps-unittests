@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.17">
+  <POU Name="FB_AmphosAttenuatorEnable_Test" Id="{56de8707-e9ed-440b-b040-6968f4b85d15}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_AmphosAttenuatorEnable_Test EXTENDS FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[LocksWithHardwareFailure();
+LocksWithLUTLeak();
+LocksWithLOTAOLeak();
+LocksWithLOCOLeak();
+LocksWithMRC01Error();
+LocksWhenAmphosOff();
+EnablesWhenNoError();]]></ST>
+    </Implementation>
+    <Method Name="EnablesWhenNoError" Id="{e55da7b1-875b-41f3-8cfb-47fd92024193}">
+      <Declaration><![CDATA[METHOD EnablesWhenNoError
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('EnablesWhenNoError');
+
+bResult := F_AmphosAttenuatorEnable(bAmphosOn := TRUE, stErrors := stErrors);
+
+AssertTrue(bResult, 'Amphos Attenuator should be enabled');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWhenAmphosOff" Id="{7c2acb96-e983-4a47-9240-c6a18b5ecca6}">
+      <Declaration><![CDATA[METHOD LocksWhenAmphosOff
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWhenAmphosOff');
+
+bResult := F_AmphosAttenuatorEnable(bAmphosOn := FALSE, stErrors := stErrors);
+
+AssertFalse(bResult, 'Amphos Attenuator did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithHardwareFailure" Id="{7e58030a-eb57-4321-81e1-ea9542408654}">
+      <Declaration><![CDATA[METHOD LocksWithHardwareFailure
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithHardwareFailure');
+
+stErrors.bHardwareFailure := TRUE;
+bResult := F_AmphosAttenuatorEnable(bAmphosOn := FALSE, stErrors := stErrors);
+
+AssertFalse(bResult, 'Amphos Attenuator did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOCOLeak" Id="{27a899f8-27c4-4c8f-a19b-34716e76baff}">
+      <Declaration><![CDATA[METHOD LocksWithLOCOLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOCOLeak');
+
+stErrors.bLeakOpcpaCarbideOn := TRUE;
+bResult := F_AmphosAttenuatorEnable(bAmphosOn := TRUE, stErrors := stErrors);
+
+AssertFalse(bResult, 'Amphos Attenuator did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLOTAOLeak" Id="{b04bb160-5174-43d1-8eaa-4d9b5223bc8d}">
+      <Declaration><![CDATA[METHOD LocksWithLOTAOLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLOTAOLeak');
+
+stErrors.bLeakOpticalTableAmphosOn := TRUE;
+bResult := F_AmphosAttenuatorEnable(bAmphosOn := TRUE, stErrors := stErrors);
+
+AssertFalse(bResult, 'Amphos Attenuator did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithLUTLeak" Id="{7c58bbfe-fca2-42a2-9b0c-f5516df547f9}">
+      <Declaration><![CDATA[METHOD LocksWithLUTLeak
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithLUTLeak');
+
+stErrors.bLeakUnderTable := TRUE;
+bResult := F_AmphosAttenuatorEnable(bAmphosOn := TRUE, stErrors := stErrors);
+
+AssertFalse(bResult, 'Amphos Attenuator did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LocksWithMRC01Error" Id="{b0b2a6da-c52f-4e18-998e-104d429fd21d}">
+      <Declaration><![CDATA[METHOD LocksWithMRC01Error
+VAR
+	stErrors : st_ErrorStates;
+	bResult : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('LocksWithMRC01Error');
+
+stErrors.bAmphosMRC01 := TRUE;
+bResult := F_AmphosAttenuatorEnable(bAmphosOn := TRUE, stErrors := stErrors);
+
+AssertFalse(bResult, 'Amphos Attenuator did not lock');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test">
+      <LineId Id="26" Count="0" />
+      <LineId Id="11" Count="2" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test.EnablesWhenNoError">
+      <LineId Id="8" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test.LocksWhenAmphosOff">
+      <LineId Id="6" Count="0" />
+      <LineId Id="8" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test.LocksWithHardwareFailure">
+      <LineId Id="6" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="8" Count="4" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test.LocksWithLOCOLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test.LocksWithLOTAOLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test.LocksWithLUTLeak">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AmphosAttenuatorEnable_Test.LocksWithMRC01Error">
+      <LineId Id="6" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

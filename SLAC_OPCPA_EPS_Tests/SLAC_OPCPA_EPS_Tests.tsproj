@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4020.56">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
+			<BitSize>48</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>6</Elements>
+			</ArrayInfo>
+			<Format>
+				<Printf>%d.%d.%d.%d.%d.%d</Printf>
+				<Parameter>[0]</Parameter>
+				<Parameter>[1]</Parameter>
+				<Parameter>[2]</Parameter>
+				<Parameter>[3]</Parameter>
+				<Parameter>[4]</Parameter>
+				<Parameter>[5]</Parameter>
+			</Format>
+		</DataType>
+	</DataTypes>
+	<Project ProjectGUID="{FB579369-5265-482F-9222-20A5237D8E80}" Target64Bit="true" ShowHideConfigurations="#x106">
+		<System>
+			<Settings MaxCpus="8" NonWinCpus="1">
+				<Cpu CpuId="7"/>
+			</Settings>
+			<Tasks>
+				<Task Id="2" Priority="20" CycleTime="100000" AmsPort="350">
+					<Name>PlcTask</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{AA4F0CA6-A16B-432D-B980-68655DF42698}" Name="EPS_Tests" PrjFilePath="EPS_Tests\EPS_Tests.plcproj" TmcFilePath="EPS_Tests\EPS_Tests.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+					<Name>EPS_Tests Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>GVL_IO.nOpcpaVoltageRaw</Name>
+							<Comment>
+								<![CDATA[ Ch1]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nAmphosVoltageRaw</Name>
+							<Comment>
+								<![CDATA[ Ch2]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw01</Name>
+							<Comment>
+								<![CDATA[ Ch1]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw02</Name>
+							<Comment>
+								<![CDATA[ Ch2]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw03</Name>
+							<Comment>
+								<![CDATA[ Ch3]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw04</Name>
+							<Comment>
+								<![CDATA[ Ch4]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw05</Name>
+							<Comment>
+								<![CDATA[ Ch1]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw06</Name>
+							<Comment>
+								<![CDATA[ Ch2]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw07</Name>
+							<Comment>
+								<![CDATA[ Ch3]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.nTempMonRaw08</Name>
+							<Comment>
+								<![CDATA[ Ch4]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosOn</Name>
+							<Comment>
+								<![CDATA[ Ch1]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bLeakDetected</Name>
+							<Comment>
+								<![CDATA[ Ch2]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bLoopTempSW01</Name>
+							<Comment>
+								<![CDATA[ Ch3 Loop 01 NC Temp switch]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bLoopTempSW02</Name>
+							<Comment>
+								<![CDATA[ Ch4 Loop 02 NC Temp switch]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bLoopTempSW03</Name>
+							<Comment>
+								<![CDATA[ Ch5 Loop 03 NC Temp switch]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bLoopTempSW04</Name>
+							<Comment>
+								<![CDATA[ Ch6 Loop 04 NC Temp switch]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bDumpChillerFlow</Name>
+							<Comment>
+								<![CDATA[ Ch7 Dump chiller NC flow sensor]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bBaseplateChillerFlow</Name>
+							<Comment>
+								<![CDATA[ Ch8 Baseplate chiller NC flow sensor]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCarbideOn</Name>
+							<Comment>
+								<![CDATA[ Ch1]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosMRC01</Name>
+							<Comment>
+								<![CDATA[ Ch2 NC Amphos MRC switch]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosMRC02</Name>
+							<Comment>
+								<![CDATA[ Ch3 NC Amphos MRC switch]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosMRC03</Name>
+							<Comment>
+								<![CDATA[ Ch4 NC Amphos MRC switch]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_PLC.AMSNetId</Name>
+							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>GVL_IO.bAmphosAttenuatorEnable</Name>
+							<Comment>
+								<![CDATA[ Ch1]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosAttenuatorEnableManualOperation</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosShutterEnable</Name>
+							<Comment>
+								<![CDATA[ Ch2]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosShutterEnableManualOperation</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCarbideShutterEnable</Name>
+							<Comment>
+								<![CDATA[ Ch3]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bCarbideShutterEnableManualOperation</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bDumpChillerRelay</Name>
+							<Comment>
+								<![CDATA[ Ch1 Dump chiller NC relay]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bBaseplateChillerRelay</Name>
+							<Comment>
+								<![CDATA[ Ch2 Baseplate chiller NC relay]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.bAmphosRelay</Name>
+							<Comment>
+								<![CDATA[ Ch3 Amphos Interlock relay]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+	</Project>
+</TcSmProject>
